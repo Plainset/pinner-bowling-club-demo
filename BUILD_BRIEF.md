@@ -114,16 +114,50 @@ Rejected:
   `#F3A81B` from the same banner, and a bowling-green green for a secondary accent.
   **Amber fails contrast as text on light** (2.32:1) so it is used only on navy or as a
   block/rule colour, never as body text on paper.
-- The hero is the one genuinely full-bleed photograph across all builds so far, and it earns
-  it: sun, blue sky, mature trees, and a real moment of members mid-game. It clears the
-  AGENTS.md quality bar for full-screen use, and at 1200px native it is large enough.
+- The hero photograph earns its prominence: sun, blue sky, mature trees, and a real moment of
+  members mid-game. It clears the AGENTS.md quality bar. **It is not full-bleed.** At 1200px
+  native, bleeding it to the viewport measures 1.6× at 1920 and fails the upscale gate, so it
+  is held inside the 1140px shell. After reviewer round 1 it also moved alongside the
+  headline above 64rem rather than beneath it — stacked, it sat at y≈1055, below the fold on
+  every desktop screen, with 413px of empty navy beside the h1. Side by side it renders at
+  **544px, a 0.45× downscale**: more headroom than the stacked version, not less.
 - Image layout pattern: wrapper `aspect-ratio` + `object-fit: cover` throughout.
-- Risk notes: `green-play.jpg` is 1200px native, so a full-bleed hero must not exceed
-  1200 CSS px of *rendered* width at 1× — the hero uses `object-fit: cover` in a
-  viewport-width band, so at 1440 the rendered width is 1440 and the ratio would be 1.2×.
-  That is under the 1.3× gate but close, so it is checked explicitly at 1440 and 1920.
+- Risk notes: `green-play.jpg` is 1200px native. Measured after the round-1 restructure:
+  0.236× at 320 up to **0.45× at 1440 and 1920**. `green-hedge.jpg` is 1000px native and was
+  initially allowed to fill the 1140 shell — 1.14×, under the gate but inconsistent with the
+  discipline applied to the hero — so its band is now capped at its own native 1000px.
+  Every width from 320 to 1920 is audited, 1920 specifically because that is where a
+  full-bleed hero would have failed.
 - Engine: `engine.css` vendored; `data-reveal` motion overridden at site level as on the
   previous two builds.
 
 ## Builder QA
 See `QA_REPORT.md`.
+
+
+## Reviewer round 1 — PASS at 7.5/10, and what changed
+
+The reviewer verified every claim it was asked to challenge and found the build correct on
+all of them: it crawled **98 pages** of the live site and confirmed **zero** `mailto:`, zero
+`tel:`, zero email-pattern and zero UK-phone-pattern matches across raw HTML and stripped
+text, with the Contact page reading "Club Secretary — n/a"; it confirmed the hero at 0.95×
+with no violation at 1920; it confirmed all three testimonials verbatim; and it confirmed
+every fact, including all 13 committee names and both "Unfilled" posts.
+
+Its criticism was visual judgement, and it was right. Fixed:
+
+1. **The hero buried the club's best asset.** Stacked, the photograph sat at y≈1055 — below
+   the fold on every desktop screen — while 413px of navy sat empty beside the headline. It
+   is now side by side above 64rem, stacked below. The players are above the fold and the
+   image renders at 544px.
+2. **The header said "MEN / U" on every phone.** `.nav-toggle` had no `white-space: nowrap`,
+   so "Menu" broke mid-word at 320, 360, 375 and 390px. Fixed and measured: the text node now
+   returns **1 client rect at every width**. The brand title also had its size clamped so it
+   holds one line from 375px up.
+3. **The logo was 466KB for a 52px badge** — 64% of the home page's total weight. Re-exported
+   at 128px: **42.6KB**, an 89% reduction.
+4. **The open mobile nav was the same navy as the hero behind it**, so it read as the page
+   changing rather than a panel opening. Now `--navy-deep` with a drop shadow.
+5. **The committee table said "as published" but showed 13 of 16 rows.** Vets A, Vets B and
+   Bidgood restored.
+6. `green-hedge.jpg` band capped at its native 1000px.

@@ -109,10 +109,10 @@ a:focus-visible, button:focus-visible {
 .site-header__inner { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 72px; padding-block: 0.5rem; }
 .brand-lockup { display: flex; align-items: center; gap: 0.8rem; text-decoration: none; min-width: 0; }
 .brand-lockup img { width: 52px; height: auto; }
-.brand-lockup span { font-family: var(--serif); font-weight: 700; color: #fff; font-size: 1.05rem; line-height: 1.2; min-width: 0; }
+.brand-lockup span { font-family: var(--serif); font-weight: 700; color: #fff; font-size: clamp(0.92rem, 0.82rem + 0.5vw, 1.05rem); line-height: 1.2; min-width: 0; }
 .brand-lockup small { display: block; font-family: var(--sans); font-weight: 400; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: #A9C4D8; margin-top: 0.15rem; }
 
-.nav-toggle { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; padding: 0.4rem 0.85rem; background: transparent; color: #fff; border: 1px solid rgb(255 255 255 / 0.45); border-radius: 999px; font: inherit; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; }
+.nav-toggle { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; padding: 0.4rem 0.85rem; background: transparent; color: #fff; border: 1px solid rgb(255 255 255 / 0.45); border-radius: 999px; font: inherit; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; white-space: nowrap; flex: none; }
 .nav-toggle__bars { display: grid; gap: 3px; }
 .nav-toggle__bars span { display: block; width: 16px; height: 1.5px; background: currentColor; }
 @media (min-width: 50rem) { .nav-toggle { display: none; } }
@@ -124,7 +124,7 @@ a:focus-visible, button:focus-visible {
 .site-nav .nav-cta:hover { background: #FFC24D; color: #3A2400; border-bottom: 0; }
 
 @media (max-width: 49.999rem) {
-  .site-nav { display: none; position: absolute; inset-inline: 0; top: 100%; background: var(--navy); border-bottom: 3px solid var(--amber); padding: 0.4rem var(--gutter) 1.3rem; }
+  .site-nav { display: none; position: absolute; inset-inline: 0; top: 100%; background: var(--navy-deep); border-bottom: 3px solid var(--amber); box-shadow: 0 18px 32px -12px rgb(0 0 0 / 0.55); padding: 0.4rem var(--gutter) 1.3rem; }
   .site-nav[data-open="true"] { display: block; }
   .site-nav ul { flex-direction: column; align-items: stretch; gap: 0; }
   .site-nav li { border-top: 1px solid rgb(255 255 255 / 0.12); }
@@ -133,17 +133,25 @@ a:focus-visible, button:focus-visible {
 }
 
 /* ---------------------------------------------------------------- hero --- */
-.hero { background: var(--navy); color: #fff; padding-block: clamp(2.75rem, 6vw, 4.5rem) 0; }
-.hero h1 { font-size: clamp(2.1rem, 1.5rem + 3vw, 3.6rem); margin-bottom: 1.1rem; max-width: 18ch; }
+.hero { background: var(--navy); color: #fff; padding-block: clamp(2.75rem, 6vw, 4.5rem) clamp(2.5rem, 5vw, 4rem); }
+.hero h1 { font-size: clamp(2.1rem, 1.5rem + 2.6vw, 3.2rem); margin-bottom: 1.1rem; max-width: 18ch; }
 .hero__lede { color: #C8D8E4; font-size: clamp(1.03rem, 0.98rem + 0.35vw, 1.2rem); max-width: 54ch; }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.9rem; }
 
 /* The hero photograph is 1200px native. Held to the 1140px shell rather than
    bled to the viewport, so at 1440 and 1920 it renders at 1140 CSS px — a
    0.95x downscale. A true full-bleed would be 1.6x at 1920 and fail the gate. */
+.hero__grid { display: grid; gap: clamp(2rem, 4vw, 3.25rem); align-items: center; }
+/* Above 64rem the photograph moves alongside the headline. Stacked, it sat at
+   y=1055 — below the fold on every desktop screen — with 413px of empty navy
+   beside the h1. Side by side it renders at ~550px, which is MORE upscale
+   headroom than the contained-but-stacked version, not less. */
+@media (min-width: 64rem) { .hero__grid { grid-template-columns: 1fr 1fr; } }
+
 .hero__figure { margin: clamp(2.25rem, 4vw, 3.25rem) 0 0; }
-.hero__figure .frame { aspect-ratio: 1200 / 727; border-radius: var(--radius) var(--radius) 0 0; }
-.hero__figure figcaption { padding: 0.85rem 0 clamp(2.25rem, 4vw, 3rem); font-size: 0.87rem; color: #A9C4D8; }
+@media (min-width: 64rem) { .hero__figure { margin-top: 0; } }
+.hero__figure .frame { aspect-ratio: 1200 / 727; border-radius: var(--radius); }
+.hero__figure figcaption { padding: 0.85rem 0 0; font-size: 0.87rem; color: #A9C4D8; }
 
 .frame { position: relative; overflow: clip; border-radius: var(--radius); background: var(--surface); }
 .frame > img { width: 100%; height: 100%; object-fit: cover; }
@@ -211,7 +219,7 @@ a:focus-visible, button:focus-visible {
 .page-head h1 { font-size: clamp(1.9rem, 1.5rem + 2.4vw, 3rem); margin-bottom: 0.85rem; }
 .page-head p { color: #C8D8E4; max-width: 58ch; margin: 0; }
 
-.band .frame { aspect-ratio: 1000 / 240; }
+.band .frame { aspect-ratio: 1000 / 240; max-width: 1000px; margin-inline: auto; }   /* == native width, no upscale */
 .map-figure .frame { aspect-ratio: 1200 / 779; border: 1px solid var(--rule); }
 .map-figure figcaption { font-size: 0.87rem; color: var(--muted); margin-top: 0.75rem; }
 
