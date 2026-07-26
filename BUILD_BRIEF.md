@@ -95,10 +95,10 @@ All images are the club's own, taken from their own website.
 
 | File | Source | Native size | License/credit | Watermark checked | Intended section | Copy match |
 |---|---|---|---|---|---|---|
-| green-play.jpg | club site (hugofox CMS) | 1200×727 | club's own photo | yes | index hero, full-bleed | members playing on the green — the club's own caption on the live site says "The photo on this page shows some of our club's members on the green" |
+| green-play.jpg | club site (hugofox CMS) | 1200×727 | club's own photo | yes | index hero, contained to the shell (0.45× at desktop) | members playing on the green — the club's own caption on the live site says "The photo on this page shows some of our club's members on the green" |
 | green-hedge.jpg | club site header crop | 1000×240 | club's own photo | yes | bowls page band | the green, hedge and bench |
 | park-map.jpg | club site | 1200×779 | the club's **own bespoke map** of Pinner Memorial Park, marked "We are here!" with both car parks | yes | visit page | finding the club and parking |
-| logo.png | club site | 399×400 | club's own badge | yes | header, footer | brand mark |
+| logo.png | club site, re-exported 399×400 → 128×128 (466KB → 42.6KB) | 128×128 | club's own badge | yes | header, footer | brand mark |
 | favicon.png | generated — "PBC" in Georgia Bold, amber on club navy | 256×256 | generated | n/a | browser tab | n/a |
 
 Rejected:
