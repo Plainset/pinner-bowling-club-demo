@@ -1,0 +1,220 @@
+/* ==========================================================================
+   Pinner Bowling Club — Pinner Memorial Park
+   Loaded AFTER engine.css so these unlayered rules win throughout.
+   Navy #123E63 and amber #F3A81B are both sampled from the club's own logo
+   and their own "Welcoming new members" banner.
+   ========================================================================== */
+
+:root {
+  --navy: #123E63;
+  --navy-deep: #0C2C48;
+  --amber: #F3A81B;
+  --amber-ink: #7A4E00;      /* amber is 2.3:1 on paper — this is the text-safe version */
+  --green: #2F6B3A;
+  --ink: #17242E;
+  --paper: #FBFAF6;
+  --surface: #EEF2EC;
+  --rule: #D9DFD8;
+  --muted: #4C5A62;
+
+  --shell: 1140px;
+  --gutter: clamp(1.15rem, 4vw, 2.75rem);
+  --radius: 3px;
+
+  --serif: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, "Times New Roman", serif;
+  --sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+@view-transition { navigation: auto; }
+
+/* Reveal — overrides engine.css's scroll-linked version for the reasons measured
+   on the Pelo build (hero at opacity 0 on first paint; elements in the final
+   viewport stranded part-faded). See main.js for the observer and its backstop. */
+@supports (animation-timeline: view()) {
+  [data-reveal], [data-reveal-hero] { animation: none; animation-timeline: none; }
+}
+[data-reveal], [data-reveal-hero] { opacity: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal]:not(.is-visible),
+  .js [data-reveal-hero]:not(.is-visible) { opacity: 0; translate: 0 18px; }
+  .js [data-reveal], .js [data-reveal-hero] {
+    transition: opacity 560ms var(--ease-out, ease), translate 560ms var(--ease-out, ease);
+  }
+  .js [data-reveal].is-visible, .js [data-reveal-hero].is-visible { opacity: 1; translate: 0 0; }
+  .js [data-reveal="2"] { transition-delay: 80ms; }
+  .js [data-reveal="3"] { transition-delay: 160ms; }
+  .js [data-reveal="4"] { transition-delay: 240ms; }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: var(--sans); font-size: clamp(1rem, 0.96rem + 0.2vw, 1.07rem);
+  line-height: 1.68; -webkit-font-smoothing: antialiased; overflow-wrap: anywhere;
+}
+
+h1, h2, h3 { font-family: var(--serif); font-weight: 700; line-height: 1.15; margin: 0; text-wrap: balance; }
+p { margin: 0 0 1.05em; text-wrap: pretty; }
+p:last-child { margin-bottom: 0; }
+img { max-width: 100%; display: block; }
+
+a { color: #0E5C86; }
+a:focus-visible, button:focus-visible {
+  outline: 3px solid #fff; outline-offset: 2px; box-shadow: 0 0 0 6px var(--navy); border-radius: 2px;
+}
+
+.scroller { scrollbar-width: thin; scrollbar-color: var(--navy) transparent; }
+.scroller::-webkit-scrollbar { height: 6px; width: 6px; }
+.scroller::-webkit-scrollbar-thumb { background: var(--navy); border-radius: 99px; }
+
+/* --------------------------------------------------------------- layout -- */
+.shell { width: min(100% - (var(--gutter) * 2), var(--shell)); margin-inline: auto; }
+.section { padding-block: clamp(3.25rem, 6.5vw, 5.5rem); }
+.section--tight { padding-block: clamp(2.25rem, 4vw, 3.5rem); }
+.section--navy { background: var(--navy); color: #EAF1F6; }
+.section--surface { background: var(--surface); }
+
+.eyebrow { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--amber-ink); margin: 0 0 0.9rem; }
+.section--navy .eyebrow, .hero .eyebrow, .page-head .eyebrow { color: var(--amber); }
+/* .hero and .page-head are navy but are not .section--navy, so the eyebrow was
+   inheriting the light-mode --amber-ink and measured 1.54:1 against the navy */
+
+.lede { font-size: clamp(1.05rem, 1rem + 0.4vw, 1.22rem); color: var(--muted); max-width: 64ch; }
+.section--navy .lede { color: #C8D8E4; }
+
+.section-head { max-width: 64ch; margin-bottom: clamp(1.75rem, 3.5vw, 2.75rem); }
+.section-head h2 { font-size: clamp(1.7rem, 1.35rem + 1.8vw, 2.5rem); margin-bottom: 1rem; }
+
+.tick { width: 44px; height: 3px; background: var(--amber); border: 0; margin: 1.2rem 0 0; }
+
+/* ------------------------------------------------------------- buttons --- */
+.btn {
+  display: inline-flex; align-items: center; gap: 0.55rem; min-height: 48px;
+  padding: 0.72rem 1.5rem; border: 1px solid transparent; border-radius: 999px;
+  font: inherit; font-weight: 700; font-size: 0.94rem; text-decoration: none; cursor: pointer;
+  transition: background-color 260ms ease, color 260ms ease, border-color 260ms ease;
+}
+.btn--primary { background: var(--amber); color: #3A2400; }
+.btn--primary:hover { background: #FFC24D; }
+.btn--ghost { background: transparent; color: #fff; border-color: rgb(255 255 255 / 0.55); }
+.btn--ghost:hover { background: rgb(255 255 255 / 0.14); border-color: #fff; }
+.btn--outline { background: transparent; color: #0E4A6E; border-color: var(--navy); }
+.btn--outline:hover { background: var(--navy); color: #fff; }
+
+/* -------------------------------------------------------------- header --- */
+.site-header { position: sticky; top: 0; z-index: 60; background: var(--navy); border-bottom: 3px solid var(--amber); }
+.site-header__inner { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 72px; padding-block: 0.5rem; }
+.brand-lockup { display: flex; align-items: center; gap: 0.8rem; text-decoration: none; min-width: 0; }
+.brand-lockup img { width: 52px; height: auto; }
+.brand-lockup span { font-family: var(--serif); font-weight: 700; color: #fff; font-size: 1.05rem; line-height: 1.2; min-width: 0; }
+.brand-lockup small { display: block; font-family: var(--sans); font-weight: 400; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: #A9C4D8; margin-top: 0.15rem; }
+
+.nav-toggle { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; padding: 0.4rem 0.85rem; background: transparent; color: #fff; border: 1px solid rgb(255 255 255 / 0.45); border-radius: 999px; font: inherit; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; }
+.nav-toggle__bars { display: grid; gap: 3px; }
+.nav-toggle__bars span { display: block; width: 16px; height: 1.5px; background: currentColor; }
+@media (min-width: 50rem) { .nav-toggle { display: none; } }
+
+.site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: clamp(1rem, 2.4vw, 1.9rem); }
+.site-nav a { color: #DCE8F0; text-decoration: none; font-size: 0.87rem; letter-spacing: 0.06em; padding-block: 0.55rem; display: inline-block; border-bottom: 2px solid transparent; transition: color 180ms ease, border-color 180ms ease; }
+.site-nav a:hover, .site-nav a[aria-current="page"] { color: #fff; border-bottom-color: var(--amber); }
+.site-nav .nav-cta { color: #3A2400; background: var(--amber); border-radius: 999px; padding: 0.55rem 1.1rem; font-weight: 700; border-bottom: 0; }
+.site-nav .nav-cta:hover { background: #FFC24D; color: #3A2400; border-bottom: 0; }
+
+@media (max-width: 49.999rem) {
+  .site-nav { display: none; position: absolute; inset-inline: 0; top: 100%; background: var(--navy); border-bottom: 3px solid var(--amber); padding: 0.4rem var(--gutter) 1.3rem; }
+  .site-nav[data-open="true"] { display: block; }
+  .site-nav ul { flex-direction: column; align-items: stretch; gap: 0; }
+  .site-nav li { border-top: 1px solid rgb(255 255 255 / 0.12); }
+  .site-nav a { padding-block: 0.95rem; width: 100%; border-bottom: 0; }
+  .site-nav .nav-cta { margin-top: 1rem; text-align: center; justify-content: center; }
+}
+
+/* ---------------------------------------------------------------- hero --- */
+.hero { background: var(--navy); color: #fff; padding-block: clamp(2.75rem, 6vw, 4.5rem) 0; }
+.hero h1 { font-size: clamp(2.1rem, 1.5rem + 3vw, 3.6rem); margin-bottom: 1.1rem; max-width: 18ch; }
+.hero__lede { color: #C8D8E4; font-size: clamp(1.03rem, 0.98rem + 0.35vw, 1.2rem); max-width: 54ch; }
+.hero__actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.9rem; }
+
+/* The hero photograph is 1200px native. Held to the 1140px shell rather than
+   bled to the viewport, so at 1440 and 1920 it renders at 1140 CSS px — a
+   0.95x downscale. A true full-bleed would be 1.6x at 1920 and fail the gate. */
+.hero__figure { margin: clamp(2.25rem, 4vw, 3.25rem) 0 0; }
+.hero__figure .frame { aspect-ratio: 1200 / 727; border-radius: var(--radius) var(--radius) 0 0; }
+.hero__figure figcaption { padding: 0.85rem 0 clamp(2.25rem, 4vw, 3rem); font-size: 0.87rem; color: #A9C4D8; }
+
+.frame { position: relative; overflow: clip; border-radius: var(--radius); background: var(--surface); }
+.frame > img { width: 100%; height: 100%; object-fit: cover; }
+
+/* --------------------------------------------------------------- facts --- */
+.facts { display: grid; gap: 0; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); border-top: 1px solid var(--rule); }
+.fact { min-width: 0; padding: 1.5rem 1.4rem 1.5rem 0; border-bottom: 1px solid var(--rule); }
+@media (min-width: 46rem) { .fact + .fact { padding-left: 1.6rem; border-left: 1px solid var(--rule); } }
+.fact b { display: block; font-family: var(--serif); font-size: 1.45rem; line-height: 1.2; margin-bottom: 0.3rem; font-variant-numeric: tabular-nums; }
+.fact span { display: block; font-size: 0.92rem; color: var(--muted); }
+
+/* --------------------------------------------------------------- steps --- */
+.steps { display: grid; gap: clamp(1.25rem, 2.5vw, 2rem); grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
+.step { min-width: 0; background: #fff; border: 1px solid var(--rule); border-top: 4px solid var(--amber); border-radius: var(--radius); padding: 1.5rem 1.6rem 1.7rem; }
+.step b { display: block; font-family: var(--serif); font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--amber-ink); margin-bottom: 0.6rem; }
+.step h3 { font-size: 1.25rem; margin-bottom: 0.55rem; }
+.step p { color: var(--muted); font-size: 0.97rem; }
+
+/* ------------------------------------------------------------- quotes ---- */
+.quotes { display: grid; gap: clamp(1.25rem, 2.5vw, 1.75rem); grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
+.quote { min-width: 0; padding: 1.6rem 1.7rem; background: color-mix(in oklab, var(--navy) 92%, #fff); border: 1px solid #3A6183; border-radius: var(--radius); display: flex; flex-direction: column; gap: 0.9rem; }
+.quote blockquote { margin: 0; font-family: var(--serif); font-size: 1.1rem; line-height: 1.45; color: #fff; }
+.quote figcaption { font-size: 0.76rem; letter-spacing: 0.14em; text-transform: uppercase; color: #A9C4D8; margin-top: auto; }
+
+/* --------------------------------------------------------------- lists --- */
+.ticks { list-style: none; margin: 1.25rem 0 0; padding: 0; display: grid; gap: 0.6rem; }
+.ticks li { position: relative; padding-left: 1.6rem; min-width: 0; }
+.ticks li::before { content: ""; position: absolute; left: 0; top: 0.55em; width: 9px; height: 9px; background: var(--amber); border-radius: 50%; }
+.section--navy .ticks li { color: #DCE8F0; }
+
+.two-col { display: grid; gap: clamp(1.75rem, 4vw, 3.25rem); align-items: start; }
+@media (min-width: 54rem) { .two-col { grid-template-columns: 1fr 1fr; } }
+
+/* -------------------------------------------------------------- roster --- */
+.roster { width: 100%; border-collapse: collapse; margin-top: 1.25rem; }
+.roster th, .roster td { text-align: left; padding: 0.7rem 0.9rem 0.7rem 0; border-bottom: 1px solid var(--rule); min-width: 0; font-size: 0.96rem; }
+.roster th { font-family: var(--sans); font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.roster td.post { color: var(--muted); }
+.roster td em { font-style: normal; color: var(--amber-ink); }
+
+/* --------------------------------------------------------------- strip --- */
+.cta-strip { background: var(--navy); color: #fff; border-radius: var(--radius); border-top: 4px solid var(--amber); padding: clamp(1.9rem, 4vw, 3rem); display: grid; gap: 1.4rem; align-items: center; }
+@media (min-width: 52rem) { .cta-strip { grid-template-columns: 1fr auto; } }
+.cta-strip h2 { font-size: clamp(1.5rem, 1.3rem + 1.4vw, 2.15rem); margin-bottom: 0.55rem; }
+.cta-strip p { color: #C8D8E4; margin: 0; max-width: 52ch; }
+.cta-strip__actions { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+
+/* -------------------------------------------------------------- footer --- */
+.site-footer { background: var(--navy-deep); color: #B4C7D6; padding-block: clamp(2.5rem, 5vw, 3.5rem); }
+.site-footer__grid { display: grid; gap: 2rem; }
+@media (min-width: 46rem) { .site-footer__grid { grid-template-columns: 1.4fr 1fr 1fr; } }
+.site-footer img { width: 62px; height: auto; margin-bottom: 0.9rem; }
+.site-footer h2 { font-family: var(--sans); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #8FAAC0; margin-bottom: 0.85rem; }
+.site-footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3rem; }
+.site-footer a { color: #DCE8F0; text-decoration: none; overflow-wrap: anywhere; display: inline-block; min-height: 26px; padding-block: 0.25rem; }
+.site-footer a:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+.site-footer .fine { margin-top: 2.2rem; padding-top: 1.3rem; border-top: 1px solid rgb(255 255 255 / 0.14); font-size: 0.81rem; color: #8FAAC0; }
+.site-footer .fine p { margin-bottom: 0.35rem; }
+
+/* --------------------------------------------------------------- misc ---- */
+.skip-link { position: absolute; left: -9999px; background: #fff; color: var(--ink); padding: 0.8rem 1.2rem; z-index: 100; }
+.skip-link:focus { left: 1rem; top: 0.6rem; }
+
+.page-head { background: var(--navy); color: #fff; padding-block: clamp(2.5rem, 5.5vw, 4rem); border-bottom: 3px solid var(--amber); }
+.page-head h1 { font-size: clamp(1.9rem, 1.5rem + 2.4vw, 3rem); margin-bottom: 0.85rem; }
+.page-head p { color: #C8D8E4; max-width: 58ch; margin: 0; }
+
+.band .frame { aspect-ratio: 1000 / 240; }
+.map-figure .frame { aspect-ratio: 1200 / 779; border: 1px solid var(--rule); }
+.map-figure figcaption { font-size: 0.87rem; color: var(--muted); margin-top: 0.75rem; }
+
+.callout { background: #fff; border: 1px solid var(--rule); border-left: 4px solid var(--navy); border-radius: var(--radius); padding: 1.4rem 1.6rem; }
+.callout h3 { font-size: 1.15rem; margin-bottom: 0.5rem; }
+.callout p { color: var(--muted); font-size: 0.97rem; }
