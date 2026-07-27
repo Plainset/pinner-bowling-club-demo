@@ -40,7 +40,10 @@ Operational handoff only. `OUTREACH_LOG.md` remains the source of truth.
 - **No season start month sneaks in** — the only "may" hits are the verb, in `visit.html:98,104`.
 - **Every factual claim traces** to the club's own pages, including both "Unfilled" posts.
 - 0 console errors, 0 failed requests, all 9 hrefs 200, keyboard and focus handling correct.
-- Deploy URL: not deployed. No outreach authorised.
+- Deploy URL: **https://plainset.github.io/pinner-bowling-club-demo/** (repo: https://github.com/Plainset/pinner-bowling-club-demo) — published to GitHub Pages 2026-07-27 on
+  Alex's explicit instruction. Verified live: all 3 pages HTTP 200, 0 broken images,
+  0 console errors.
+
 - Outreach state: **none, and none possible by email.** The club publishes no email address
   and no phone number anywhere on its site.
 - Local preview: `pinner-bowling-club-site` in `.claude/launch.json`, port 4178.
